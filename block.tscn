@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bnjh8pnvasdif"]
+
+[ext_resource type="Texture2D" uid="uid://cn4pghqlthjbd" path="res://blovk.jpeg" id="1_im0tn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0minb"]
+size = Vector2(1278, 72)
+
+[node name="StaticBody2D" type="StaticBody2D" unique_id=2144284293]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1636983895]
+position = Vector2(1.5, -1.9073486e-06)
+scale = Vector2(5.116, 0.29200003)
+texture = ExtResource("1_im0tn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1992130214]
+shape = SubResource("RectangleShape2D_0minb")

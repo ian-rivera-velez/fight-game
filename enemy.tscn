@@ -1,0 +1,224 @@
+[gd_scene format=3 uid="uid://cr7ewdcy5vlm0"]
+
+[ext_resource type="Script" uid="uid://c54i807jqfutt" path="res://enemy.gd" id="1_epg4t"]
+[ext_resource type="Texture2D" uid="uid://c7ggx7g01o0l1" path="res://enemyAnimations/crouch.png" id="2_doop2"]
+[ext_resource type="Script" uid="uid://myget2g0s14g" path="res://HurtBox.gd" id="3_qi2p4"]
+[ext_resource type="Texture2D" uid="uid://ojyw6helclql" path="res://playerAnimations/idle.png" id="4_ar8e5"]
+[ext_resource type="Texture2D" uid="uid://ct0iyur014rdh" path="res://enemyAnimations/jump.png" id="5_5hcft"]
+[ext_resource type="Texture2D" uid="uid://crxp18ogc4hyk" path="res://enemyAnimations/idle.png" id="5_doop2"]
+[ext_resource type="Texture2D" uid="uid://btbixewtssli8" path="res://enemyAnimations/kick.png" id="6_5hcft"]
+[ext_resource type="Texture2D" uid="uid://dxa8ovyxujb5b" path="res://enemyAnimations/punch.png" id="7_nnovl"]
+[ext_resource type="Script" uid="uid://cd67hlkt32tpg" path="res://HitBox.gd" id="8_hb8ge"]
+[ext_resource type="Texture2D" uid="uid://clki85xfqghco" path="res://enemyAnimations/punch up.png" id="8_jmwgi"]
+[ext_resource type="Texture2D" uid="uid://b0aao3nunr5g6" path="res://enemyAnimations/walk/walk1.png" id="9_g2u8i"]
+[ext_resource type="Texture2D" uid="uid://diiua222x844y" path="res://enemyAnimations/walk/walk2.png" id="10_otto8"]
+[ext_resource type="Texture2D" uid="uid://dpqgeymxl7d52" path="res://enemyAnimations/walk/walk3.png" id="11_8q82m"]
+[ext_resource type="Texture2D" uid="uid://07j18vf6yndm" path="res://enemyAnimations/walk/walk4.png" id="12_epc7x"]
+[ext_resource type="Texture2D" uid="uid://b1gwy2t3tt0ha" path="res://enemyAnimations/walk/walk5.png" id="13_o7rgc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kdav3"]
+radius = 82.332214
+height = 412.0071
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cts1f"]
+radius = 95.714294
+height = 334.28577
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0minb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_doop2")
+}],
+"loop": 1,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ar8e5")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_doop2")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_5hcft")
+}],
+"loop": 1,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5hcft")
+}],
+"loop": 0,
+"name": &"kick",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_nnovl")
+}],
+"loop": 0,
+"name": &"punch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_jmwgi")
+}],
+"loop": 0,
+"name": &"punch_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_g2u8i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_otto8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_8q82m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_epc7x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_o7rgc")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jpbtr"]
+radius = 226.3887
+height = 1048.5371
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cts1f"]
+size = Vector2(2550.8237, 1279.3159)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qgdfx"]
+radius = 272.06363
+height = 1159.7456
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0minb"]
+radius = 23.863401
+height = 138.34952
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eomd5"]
+radius = 16.894348
+height = 132.65155
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_58arp"]
+radius = 31.455906
+height = 181.10901
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1050366814 node_paths=PackedStringArray("Sprite", "selfCollision", "crouchCollision", "punchCollision", "punchUpCollision", "kickCollision")]
+scale = Vector2(0.7, 0.7)
+script = ExtResource("1_epg4t")
+Sprite = NodePath("PivotPoint/EnemyAnimation")
+selfCollision = NodePath("EnemyShapeCollision")
+crouchCollision = NodePath("CrouchCollision")
+punchCollision = NodePath("PivotPoint/PunchHitBox/PunchCollision")
+punchUpCollision = NodePath("PivotPoint/PunchUpHitBox/PunchUpCollision")
+kickCollision = NodePath("PivotPoint/KickHitBox/KickCollision")
+SPEED = 200.0
+JUMP_VELOCITY = -400.0
+
+[node name="EnemyShapeCollision" type="CollisionShape2D" parent="." unique_id=810305776]
+position = Vector2(-0.82332206, 13.996475)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_kdav3")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=606205013]
+position = Vector2(1.4285717, 51.428574)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_cts1f")
+
+[node name="PivotPoint" type="Node2D" parent="." unique_id=534627137]
+
+[node name="EnemyAnimation" type="AnimatedSprite2D" parent="PivotPoint" unique_id=1728961892]
+position = Vector2(-9.8846165e-08, 0)
+scale = Vector2(0.21975805, 0.21975805)
+sprite_frames = SubResource("SpriteFrames_0minb")
+animation = &"jump"
+
+[node name="HurtBox" type="Area2D" parent="PivotPoint" unique_id=807705335 node_paths=PackedStringArray("own_hitboxes")]
+visible = false
+position = Vector2(-9.8846186e-08, 0)
+scale = Vector2(0.21975812, 0.21975812)
+script = ExtResource("3_qi2p4")
+own_hitboxes = [NodePath("../PunchHitBox"), NodePath("../KickHitBox"), NodePath("../PunchUpHitBox")]
+metadata/_custom_type_script = "uid://myget2g0s14g"
+
+[node name="HurtBoxCollision" type="CollisionShape2D" parent="PivotPoint/HurtBox" unique_id=1077785285]
+position = Vector2(4.497956e-07, 59.943886)
+scale = Vector2(1.8865787, 1.8865787)
+shape = SubResource("CapsuleShape2D_jpbtr")
+
+[node name="DetectionArea" type="Area2D" parent="PivotPoint" unique_id=1487318094]
+visible = false
+scale = Vector2(0.41459098, 0.41459098)
+
+[node name="DetectCollision" type="CollisionShape2D" parent="PivotPoint/DetectionArea" unique_id=979951079]
+position = Vector2(3.971762, -114.18732)
+scale = Vector2(1.00429, 1.0446893)
+shape = SubResource("RectangleShape2D_cts1f")
+
+[node name="PersonalSpace" type="Area2D" parent="PivotPoint" unique_id=1112611353]
+visible = false
+scale = Vector2(0.41459098, 0.41459098)
+
+[node name="PersonalCollision" type="CollisionShape2D" parent="PivotPoint/PersonalSpace" unique_id=1331072195]
+shape = SubResource("CapsuleShape2D_qgdfx")
+
+[node name="PunchHitBox" type="Area2D" parent="PivotPoint" unique_id=14199618]
+script = ExtResource("8_hb8ge")
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="PunchCollision" type="CollisionShape2D" parent="PivotPoint/PunchHitBox" unique_id=1734430290]
+position = Vector2(67.51241, -16.46644)
+rotation = -1.5576062
+shape = SubResource("CapsuleShape2D_0minb")
+disabled = true
+
+[node name="KickHitBox" type="Area2D" parent="PivotPoint" unique_id=753886810]
+script = ExtResource("8_hb8ge")
+type = 2
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="KickCollision" type="CollisionShape2D" parent="PivotPoint/KickHitBox" unique_id=751174585]
+position = Vector2(65.86577, 123.49831)
+rotation = 4.7463036
+shape = SubResource("CapsuleShape2D_eomd5")
+disabled = true
+
+[node name="PunchUpHitBox" type="Area2D" parent="PivotPoint" unique_id=2727659]
+script = ExtResource("8_hb8ge")
+type = 1
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="PunchUpCollision" type="CollisionShape2D" parent="PivotPoint/PunchUpHitBox" unique_id=680360307]
+position = Vector2(75.74562, -91.38875)
+rotation = -2.5006711
+shape = SubResource("CapsuleShape2D_58arp")
+disabled = true
+
+[connection signal="animation_finished" from="PivotPoint/EnemyAnimation" to="." method="_on_enemy_animation_finished"]
+[connection signal="body_entered" from="PivotPoint/DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="PivotPoint/DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="PivotPoint/PersonalSpace" to="." method="_on_personal_space_body_entered"]
+[connection signal="body_exited" from="PivotPoint/PersonalSpace" to="." method="_on_personal_space_body_exited"]

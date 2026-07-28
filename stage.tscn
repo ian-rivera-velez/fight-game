@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cnxdif2dotn67"]
+
+[ext_resource type="PackedScene" uid="uid://c0fk1eat462ag" path="res://player.tscn" id="1_aees8"]
+[ext_resource type="PackedScene" uid="uid://bnjh8pnvasdif" path="res://block.tscn" id="2_rnkuw"]
+[ext_resource type="PackedScene" uid="uid://cr7ewdcy5vlm0" path="res://enemy.tscn" id="3_rnkuw"]
+
+[node name="Stage" type="Node2D" unique_id=1084002255]
+
+[node name="player" parent="." unique_id=275279551 instance=ExtResource("1_aees8")]
+position = Vector2(151, 422)
+
+[node name="StaticBody2D" parent="." unique_id=2144284293 instance=ExtResource("2_rnkuw")]
+position = Vector2(529, 615)
+
+[node name="Enemy" parent="." unique_id=1050366814 instance=ExtResource("3_rnkuw")]
+position = Vector2(979.99994, 417)
+JUMP_VELOCITY = -500.0

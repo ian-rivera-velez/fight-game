@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://c0fk1eat462ag"]
+
+[ext_resource type="Script" uid="uid://b83p2cwvfv713" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://cbmgv60gvwfi8" path="res://playerAnimations/crouch.png" id="2_bwjto"]
+[ext_resource type="Texture2D" uid="uid://crxp18ogc4hyk" path="res://enemyAnimations/idle.png" id="2_n7ghd"]
+[ext_resource type="Texture2D" uid="uid://ojyw6helclql" path="res://playerAnimations/idle.png" id="3_nvl01"]
+[ext_resource type="Texture2D" uid="uid://bqj1brmw3quwq" path="res://playerAnimations/kick.png" id="4_ivps1"]
+[ext_resource type="Texture2D" uid="uid://bqy4iq1r8ef88" path="res://playerAnimations/jump.png" id="5_606se"]
+[ext_resource type="Texture2D" uid="uid://en0t8uxmpfb7" path="res://playerAnimations/punch.png" id="5_urp6f"]
+[ext_resource type="Script" uid="uid://myget2g0s14g" path="res://HurtBox.gd" id="6_1jxqw"]
+[ext_resource type="Texture2D" uid="uid://dl2g3gsqd6dln" path="res://playerAnimations/punch up.png" id="6_bwjto"]
+[ext_resource type="Script" uid="uid://cd67hlkt32tpg" path="res://HitBox.gd" id="7_dw050"]
+[ext_resource type="Texture2D" uid="uid://dwkpyfkv21w1h" path="res://playerAnimations/walk/walk1.png" id="8_606se"]
+[ext_resource type="Texture2D" uid="uid://751q5wbpc6rq" path="res://playerAnimations/walk/walk2.png" id="9_u1c27"]
+[ext_resource type="Texture2D" uid="uid://dr4nxbkd6s4th" path="res://playerAnimations/walk/walk3.png" id="10_op7ga"]
+[ext_resource type="Texture2D" uid="uid://dn2ul6uqlsypp" path="res://playerAnimations/walk/walk4.png" id="11_q13i1"]
+[ext_resource type="Texture2D" uid="uid://bpsr8x8iqutsq" path="res://playerAnimations/walk/walk5.png" id="12_pylmc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ar8e5"]
+radius = 359.0
+height = 1842.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cts1f"]
+radius = 413.3333
+height = 1493.3334
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_doop2"]
+radius = 452.0
+height = 1994.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0minb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bwjto")
+}],
+"loop": 1,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n7ghd")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_nvl01")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_606se")
+}],
+"loop": 1,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ivps1")
+}],
+"loop": 0,
+"name": &"kick",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_urp6f")
+}],
+"loop": 0,
+"name": &"punch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_bwjto")
+}],
+"loop": 0,
+"name": &"punch_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_606se")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_u1c27")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_op7ga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_q13i1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_pylmc")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5hcft"]
+radius = 402.0
+height = 1910.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eomd5"]
+radius = 1396.7671
+height = 6290.208
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0minb"]
+radius = 1473.3467
+height = 8196.456
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_58arp"]
+radius = 110.88388
+height = 825.4048
+
+[node name="player" type="CharacterBody2D" unique_id=275279551 node_paths=PackedStringArray("Sprite", "selfCollision", "crouchCollision", "punchCollision", "punchUpCollision", "kickCollision") groups=["player"]]
+scale = Vector2(0.15, 0.15)
+script = ExtResource("1_onrkg")
+Sprite = NodePath("PivotPoint/PlayerAnimation")
+selfCollision = NodePath("PlayerShapeCollision")
+crouchCollision = NodePath("CrouchCollision")
+punchCollision = NodePath("PivotPoint/PunchHitBox/PunchCollision")
+punchUpCollision = NodePath("PivotPoint/PunchUpHitBox/PunchUpCollision")
+kickCollision = NodePath("PivotPoint/KickHitBox/KickCollision")
+
+[node name="PlayerShapeCollision" type="CollisionShape2D" parent="." unique_id=1367417097]
+position = Vector2(4, 80)
+shape = SubResource("CapsuleShape2D_ar8e5")
+
+[node name="CrouchCollision" type="CollisionShape2D" parent="." unique_id=945351858]
+position = Vector2(-6.6666665, 253.33333)
+shape = SubResource("CapsuleShape2D_cts1f")
+disabled = true
+
+[node name="PersonalSpace" type="Area2D" parent="." unique_id=834935481]
+visible = false
+
+[node name="PersonalCollision" type="CollisionShape2D" parent="PersonalSpace" unique_id=1286110477]
+position = Vector2(13, 65)
+shape = SubResource("CapsuleShape2D_doop2")
+
+[node name="PivotPoint" type="Node2D" parent="." unique_id=882065531]
+
+[node name="PlayerAnimation" type="AnimatedSprite2D" parent="PivotPoint" unique_id=788922213]
+position = Vector2(-3.8146973e-06, -3.8146973e-06)
+sprite_frames = SubResource("SpriteFrames_0minb")
+animation = &"jump"
+
+[node name="HurtBox" type="Area2D" parent="PivotPoint" unique_id=304461290 node_paths=PackedStringArray("own_hitboxes")]
+visible = false
+position = Vector2(-2.2737368e-13, -2.2737368e-13)
+scale = Vector2(0.99999994, 0.99999994)
+monitorable = false
+script = ExtResource("6_1jxqw")
+own_hitboxes = [NodePath("../PunchHitBox"), NodePath("../KickHitBox"), NodePath("../PunchUpHitBox")]
+metadata/_custom_type_script = "uid://myget2g0s14g"
+
+[node name="HurtCollision" type="CollisionShape2D" parent="PivotPoint/HurtBox" unique_id=1574416756]
+position = Vector2(11.000001, 76.00001)
+shape = SubResource("CapsuleShape2D_5hcft")
+
+[node name="PunchHitBox" type="Area2D" parent="PivotPoint" unique_id=1390408530]
+position = Vector2(-3.8146973e-06, -3.8146973e-06)
+scale = Vector2(0.049334228, 0.04933422)
+script = ExtResource("7_dw050")
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="PunchCollision" type="CollisionShape2D" parent="PivotPoint/PunchHitBox" unique_id=1035533770]
+position = Vector2(5939.081, -1824.2915)
+rotation = -1.5710481
+scale = Vector2(1.3060523, 1.675676)
+shape = SubResource("CapsuleShape2D_eomd5")
+disabled = true
+
+[node name="KickHitBox" type="Area2D" parent="PivotPoint" unique_id=247361312]
+position = Vector2(-3.9999998, -2.2737368e-13)
+scale = Vector2(0.049334228, 0.04933422)
+script = ExtResource("7_dw050")
+type = 2
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="KickCollision" type="CollisionShape2D" parent="PivotPoint/KickHitBox" unique_id=469461133]
+position = Vector2(5776.9224, 11411.957)
+rotation = -1.5311718
+scale = Vector2(1.1381488, 1.6087953)
+shape = SubResource("CapsuleShape2D_0minb")
+disabled = true
+
+[node name="PunchUpHitBox" type="Area2D" parent="PivotPoint" unique_id=392407598]
+script = ExtResource("7_dw050")
+type = 1
+metadata/_custom_type_script = "uid://cd67hlkt32tpg"
+
+[node name="PunchUpCollision" type="CollisionShape2D" parent="PivotPoint/PunchUpHitBox" unique_id=286498880]
+position = Vector2(285, -352)
+rotation = -2.4619133
+shape = SubResource("CapsuleShape2D_58arp")
+disabled = true
+
+[connection signal="animation_finished" from="PivotPoint/PlayerAnimation" to="." method="_on_player_animation_finished"]
