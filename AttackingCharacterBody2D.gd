@@ -14,6 +14,19 @@ class_name AttackingCharacterBody2D
 	"punch_up": punchUpCollision
 }
 
+@onready var hitbox_markers := {
+	"standing": {
+		"punch": $PivotPoint/PunchHitBox/PunchStandingMarker,
+		"punch_up": $PivotPoint/PunchUpHitBox/PunchUpStandingMarker,
+		"kick": $PivotPoint/KickHitBox/KickStandingMarker
+	},
+	"crouching": {
+		"punch": $PivotPoint/PunchHitBox/PunchCrouchingMarker,
+		"punch_up": $PivotPoint/PunchUpHitBox/PunchUpCrouchingMarker,
+		"kick": $PivotPoint/KickHitBox/KickCrouchingMarker
+	}
+}
+
 #physics stuff
 @export var SPEED := 300.0
 @export var JUMP_VELOCITY := -500.0
@@ -40,9 +53,14 @@ func wants_to_crouch() -> bool:
 
 #movement states
 func idle_state():
-	velocity.x = move_toward(velocity.x, 0, SPEED)
+	#set collisions to standing
 	selfCollision.set_deferred("disabled", false)
 	crouchCollision.set_deferred("disabled", true)
+	set_hitbox_positions("standing")
+	
+	
+	velocity.x = move_toward(velocity.x, 0, SPEED)
+	
 	if not is_on_floor():
 		moveState = MoveState.FALLING
 	if get_move_input():
@@ -71,6 +89,8 @@ func fall_state(delta): #falling
 	if not is_on_floor():
 		selfCollision.set_deferred("disabled", true)
 		crouchCollision.set_deferred("disabled", false)
+		set_hitbox_positions("crouching")
+		
 		velocity += get_gravity() * delta
 		if direction: #can move side to side
 			velocity.x = direction.x * SPEED
@@ -80,6 +100,8 @@ func fall_state(delta): #falling
 func crouch_state():
 	selfCollision.set_deferred("disabled", true)
 	crouchCollision.set_deferred("disabled", false)
+	set_hitbox_positions("crouching")
+	
 	if not is_on_floor():
 		selfCollision.set_deferred("disabled", false)
 		crouchCollision.set_deferred("disabled", true)
@@ -186,17 +208,32 @@ func updateMovementAnimation(): #handle moving animations
 			changeAnimation("hurt")
 
 func updateActionAnimation(): #handle action animations
-	match actionState:
-		ActionState.NONE:
-			changeAnimation("idle")
-		ActionState.PUNCHING:
-			changeAnimation("punch")
-		ActionState.PUNCH_UP:
-			changeAnimation("punch_up")
-		ActionState.KICKING:
-			changeAnimation("kick")
+	if actionState == ActionState.NONE:
+		changeAnimation("idle")
+	elif moveState == MoveState.CROUCH or moveState == MoveState.FALLING:
+		match actionState:
+			ActionState.PUNCHING:
+				changeAnimation("crouch_punch")
+			ActionState.PUNCH_UP:
+				changeAnimation("crouch_punch_up")
+			ActionState.KICKING:
+				changeAnimation("crouch_kick")
+	else:
+		match actionState:
+			ActionState.PUNCHING:
+				changeAnimation("punch")
+			ActionState.PUNCH_UP:
+				changeAnimation("punch_up")
+			ActionState.KICKING:
+				changeAnimation("kick")
 
 func changeAnimation(animation): #helper function, dont touch
 	if Sprite.animation != animation:
 		Sprite.stop()
 		Sprite.play(animation)
+
+func set_hitbox_positions(state: String):
+	for attack in hitbox_markers[state]:
+		var marker = hitbox_markers[state][attack]
+		hitbox_collisions[attack].position = marker.position
+		hitbox_collisions[attack].rotation = marker.rotation

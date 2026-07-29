@@ -2,9 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c54i807jqfutt" path="res://enemy.gd" id="1_epg4t"]
 [ext_resource type="Texture2D" uid="uid://c7ggx7g01o0l1" path="res://enemyAnimations/crouch.png" id="2_doop2"]
+[ext_resource type="Texture2D" uid="uid://ebgk7251dbn" path="res://enemyAnimations/crouch kick.png" id="3_g2u8i"]
 [ext_resource type="Script" uid="uid://myget2g0s14g" path="res://HurtBox.gd" id="3_qi2p4"]
 [ext_resource type="Texture2D" uid="uid://ojyw6helclql" path="res://playerAnimations/idle.png" id="4_ar8e5"]
+[ext_resource type="Texture2D" uid="uid://ckn2c601ntic1" path="res://enemyAnimations/crouch punch.png" id="4_otto8"]
 [ext_resource type="Texture2D" uid="uid://ct0iyur014rdh" path="res://enemyAnimations/jump.png" id="5_5hcft"]
+[ext_resource type="Texture2D" uid="uid://cjthiswwxd8wv" path="res://enemyAnimations/crouch punch up.png" id="5_8q82m"]
 [ext_resource type="Texture2D" uid="uid://crxp18ogc4hyk" path="res://enemyAnimations/idle.png" id="5_doop2"]
 [ext_resource type="Texture2D" uid="uid://btbixewtssli8" path="res://enemyAnimations/kick.png" id="6_5hcft"]
 [ext_resource type="Texture2D" uid="uid://dxa8ovyxujb5b" path="res://enemyAnimations/punch.png" id="7_nnovl"]
@@ -32,6 +35,30 @@ animations = [{
 }],
 "loop": 1,
 "name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_g2u8i")
+}],
+"loop": 1,
+"name": &"crouch_kick",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_otto8")
+}],
+"loop": 1,
+"name": &"crouch_punch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_8q82m")
+}],
+"loop": 1,
+"name": &"crouch_punch_up",
 "speed": 5.0
 }, {
 "frames": [{
@@ -147,6 +174,7 @@ shape = SubResource("CapsuleShape2D_kdav3")
 position = Vector2(1.4285717, 51.428574)
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_cts1f")
+disabled = true
 
 [node name="PivotPoint" type="Node2D" parent="." unique_id=534627137]
 
@@ -154,7 +182,7 @@ shape = SubResource("CapsuleShape2D_cts1f")
 position = Vector2(-9.8846165e-08, 0)
 scale = Vector2(0.21975805, 0.21975805)
 sprite_frames = SubResource("SpriteFrames_0minb")
-animation = &"jump"
+animation = &"crouch_punch_up"
 
 [node name="HurtBox" type="Area2D" parent="PivotPoint" unique_id=807705335 node_paths=PackedStringArray("own_hitboxes")]
 visible = false
@@ -190,10 +218,18 @@ script = ExtResource("8_hb8ge")
 metadata/_custom_type_script = "uid://cd67hlkt32tpg"
 
 [node name="PunchCollision" type="CollisionShape2D" parent="PivotPoint/PunchHitBox" unique_id=1734430290]
-position = Vector2(67.51241, -16.46644)
-rotation = -1.5576062
+position = Vector2(67.14285, 25.714283)
+rotation = -1.8324661
 shape = SubResource("CapsuleShape2D_0minb")
 disabled = true
+
+[node name="PunchStandingMarker" type="Marker2D" parent="PivotPoint/PunchHitBox" unique_id=644781701]
+position = Vector2(67.14286, -15.714286)
+rotation = -1.5707964
+
+[node name="PunchCrouchingMarker" type="Marker2D" parent="PivotPoint/PunchHitBox" unique_id=667721415]
+position = Vector2(67.14287, 25.714285)
+rotation = -1.8325957
 
 [node name="KickHitBox" type="Area2D" parent="PivotPoint" unique_id=753886810]
 script = ExtResource("8_hb8ge")
@@ -201,10 +237,18 @@ type = 2
 metadata/_custom_type_script = "uid://cd67hlkt32tpg"
 
 [node name="KickCollision" type="CollisionShape2D" parent="PivotPoint/KickHitBox" unique_id=751174585]
-position = Vector2(65.86577, 123.49831)
-rotation = 4.7463036
+position = Vector2(71.428566, 120)
+rotation = 7.573721
 shape = SubResource("CapsuleShape2D_eomd5")
 disabled = true
+
+[node name="KickStandingMarker" type="Marker2D" parent="PivotPoint/KickHitBox" unique_id=1165859890]
+position = Vector2(65.714294, 124.28571)
+rotation = 4.74555
+
+[node name="KickCrouchingMarker" type="Marker2D" parent="PivotPoint/KickHitBox" unique_id=617571402]
+position = Vector2(71.42857, 120)
+rotation = 7.5729837
 
 [node name="PunchUpHitBox" type="Area2D" parent="PivotPoint" unique_id=2727659]
 script = ExtResource("8_hb8ge")
@@ -212,10 +256,18 @@ type = 1
 metadata/_custom_type_script = "uid://cd67hlkt32tpg"
 
 [node name="PunchUpCollision" type="CollisionShape2D" parent="PivotPoint/PunchUpHitBox" unique_id=680360307]
-position = Vector2(75.74562, -91.38875)
-rotation = -2.5006711
+position = Vector2(47.142864, -95.71429)
+rotation = -2.7824624
 shape = SubResource("CapsuleShape2D_58arp")
 disabled = true
+
+[node name="PunchUpStandingMarker" type="Marker2D" parent="PivotPoint/PunchUpHitBox" unique_id=337318841]
+position = Vector2(75.71429, -91.42857)
+rotation = -2.501057
+
+[node name="PunchUpCrouchingMarker" type="Marker2D" parent="PivotPoint/PunchUpHitBox" unique_id=1600480499]
+position = Vector2(47.14286, -95.71429)
+rotation = -2.782055
 
 [connection signal="animation_finished" from="PivotPoint/EnemyAnimation" to="." method="_on_enemy_animation_finished"]
 [connection signal="body_entered" from="PivotPoint/DetectionArea" to="." method="_on_detection_area_body_entered"]
