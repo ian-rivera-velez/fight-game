@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://c0fk1eat462ag" path="res://player.tscn" id="1_aees8"]
 [ext_resource type="PackedScene" uid="uid://bnjh8pnvasdif" path="res://block.tscn" id="2_rnkuw"]
 [ext_resource type="PackedScene" uid="uid://cr7ewdcy5vlm0" path="res://enemy.tscn" id="3_rnkuw"]
+[ext_resource type="Script" uid="uid://dqlo4teluixmy" path="res://health_bar.gd" id="4_gx6sy"]
+[ext_resource type="Texture2D" uid="uid://bwr55pbu143a7" path="res://assets n stuff/healthBarOut.png" id="4_vpggq"]
+[ext_resource type="Texture2D" uid="uid://b5uitue0xg03d" path="res://assets n stuff/healthBarIn.png" id="5_1edn8"]
 
 [node name="Stage" type="Node2D" unique_id=1084002255]
 
@@ -15,3 +18,39 @@ position = Vector2(529, 615)
 [node name="Enemy" parent="." unique_id=1050366814 instance=ExtResource("3_rnkuw")]
 position = Vector2(979.99994, 417)
 JUMP_VELOCITY = -500.0
+
+[node name="UI Layer" type="CanvasLayer" parent="." unique_id=1259212370]
+
+[node name="EnemyHealthBar" type="TextureProgressBar" parent="UI Layer" unique_id=1502031480 node_paths=PackedStringArray("charToDisplayHealth")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -461.0
+offset_top = 25.0
+offset_right = -18.0
+offset_bottom = 110.0
+grow_horizontal = 0
+nine_patch_stretch = true
+stretch_margin_left = 25
+stretch_margin_top = 25
+stretch_margin_right = 25
+stretch_margin_bottom = 25
+texture_under = ExtResource("4_vpggq")
+texture_progress = ExtResource("5_1edn8")
+script = ExtResource("4_gx6sy")
+charToDisplayHealth = NodePath("../../Enemy")
+
+[node name="PlayerHealthBar" type="TextureProgressBar" parent="UI Layer" unique_id=2036093178 node_paths=PackedStringArray("charToDisplayHealth")]
+offset_left = 20.0
+offset_top = 26.0
+offset_right = 475.0
+offset_bottom = 106.0
+nine_patch_stretch = true
+stretch_margin_left = 25
+stretch_margin_top = 25
+stretch_margin_right = 25
+stretch_margin_bottom = 25
+texture_under = ExtResource("4_vpggq")
+texture_progress = ExtResource("5_1edn8")
+script = ExtResource("4_gx6sy")
+charToDisplayHealth = NodePath("../../player")

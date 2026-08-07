@@ -1,12 +1,14 @@
 extends CharacterBody2D
 class_name AttackingCharacterBody2D
 
+#Collisions and Animations
 @export var Sprite : AnimatedSprite2D
 @export var selfCollision: CollisionShape2D
 @export var crouchCollision: CollisionShape2D
 @export var punchCollision: CollisionShape2D
 @export var punchUpCollision: CollisionShape2D
 @export var kickCollision: CollisionShape2D
+@export var referencePoint: Marker2D
 
 @onready var hitbox_collisions := {
 	"punch": punchCollision,
@@ -27,13 +29,18 @@ class_name AttackingCharacterBody2D
 	}
 }
 
+#Health Stuff
+@export var maxHealth := 100
+var health := maxHealth
+signal health_changed
+
 #physics stuff
 @export var SPEED := 300.0
 @export var JUMP_VELOCITY := -500.0
 var direction : Vector2
 
 #State machine :)
-enum MoveState {IDLE, WALKING, JUMPING, FALLING, HURT, CROUCH}
+enum MoveState {IDLE, WALKING, JUMPING, FALLING, HURT, CROUCH, DEAD}
 var moveState: MoveState = MoveState.IDLE
 
 enum ActionState {NONE, PUNCHING, PUNCH_UP, KICKING}
@@ -111,14 +118,36 @@ func crouch_state():
 		crouchCollision.set_deferred("disabled", true)
 		moveState = MoveState.IDLE
 
+func take_damage(amount, type, dir):
+	health_changed.emit()
+	health -= amount
+	
+	if health <= 0:
+		moveState = MoveState.DEAD
+	else:
+		match type:
+			Global.AttackType.PUNCH:
+				velocity.x = dir * 200
+			Global.AttackType.PUNCH_UP:
+				velocity.x = dir * 200
+				velocity.y = -300
+			Global.AttackType.KICK:
+				velocity.x = dir * 200
+				velocity.y = 200
+		moveState = MoveState.HURT
+	
+
 func hurt_state(delta):
-	print("in hurt state")
-	print(velocity.x)
 	velocity += get_gravity() * delta
 	velocity.x = move_toward(velocity.x, 0, 1000.0*delta)
 	
 	if abs(velocity.x) < 5:
 		moveState = MoveState.IDLE
+
+func dead_state(delta):
+	velocity += get_gravity() * delta
+	velocity.x = move_toward(velocity.x, 0, delta)
+	actionState = ActionState.NONE
 
 #action states
 func noAction_state():
@@ -134,26 +163,14 @@ func punch_state():
 
 func kick_state():
 	hitbox_collisions["kick"].set_deferred("disabled", false)
-
-func take_damage(amount, type, dir):
-	print("took damage from: ", type)
-	match type:
-		Global.AttackType.PUNCH:
-			velocity.x = dir * 200
-		Global.AttackType.PUNCH_UP:
-			velocity.x = dir * 200
-			velocity.y = -300
-		Global.AttackType.KICK:
-			velocity.x = dir * 200
-			velocity.y = 200
-	moveState = MoveState.HURT
-	
 	
 
 func _physics_process(delta: float) -> void:
 	direction.x = get_move_input()
 	#handle state machines
 	match moveState:
+		MoveState.DEAD:
+			dead_state(delta)
 		MoveState.IDLE:
 			idle_state()
 		MoveState.WALKING:
@@ -205,6 +222,8 @@ func updateMovementAnimation(): #handle moving animations
 		MoveState.CROUCH:
 			changeAnimation("crouch")
 		MoveState.HURT:
+			changeAnimation("hurt")
+		MoveState.DEAD:
 			changeAnimation("hurt")
 
 func updateActionAnimation(): #handle action animations

@@ -89,5 +89,5 @@ func _on_enemy_animation_finished() -> void:
 	if not actionState == ActionState.NONE:
 		actionState = ActionState.NONE
 		
-		await get_tree().create_timer(.5).timeout
+		await get_tree().create_timer(randf_range(0.2, 1.0)).timeout
 		can_attack = true

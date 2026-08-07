@@ -150,7 +150,7 @@ height = 8196.456
 radius = 110.88388
 height = 825.4048
 
-[node name="player" type="CharacterBody2D" unique_id=275279551 node_paths=PackedStringArray("Sprite", "selfCollision", "crouchCollision", "punchCollision", "punchUpCollision", "kickCollision") groups=["player"]]
+[node name="player" type="CharacterBody2D" unique_id=275279551 node_paths=PackedStringArray("Sprite", "selfCollision", "crouchCollision", "punchCollision", "punchUpCollision", "kickCollision", "referencePoint") groups=["player"]]
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_onrkg")
 Sprite = NodePath("PivotPoint/PlayerAnimation")
@@ -159,6 +159,7 @@ crouchCollision = NodePath("CrouchCollision")
 punchCollision = NodePath("PivotPoint/PunchHitBox/PunchCollision")
 punchUpCollision = NodePath("PivotPoint/PunchUpHitBox/PunchUpCollision")
 kickCollision = NodePath("PivotPoint/KickHitBox/KickCollision")
+referencePoint = NodePath("HeightReference")
 
 [node name="PlayerShapeCollision" type="CollisionShape2D" parent="." unique_id=1367417097]
 position = Vector2(4, 80)
@@ -258,5 +259,8 @@ rotation = -2.4626596
 [node name="PunchUpCrouchingMarker" type="Marker2D" parent="PivotPoint/PunchUpHitBox" unique_id=719310474]
 position = Vector2(206.66666, -366.66666)
 rotation = -2.893756
+
+[node name="HeightReference" type="Marker2D" parent="." unique_id=2111192659]
+position = Vector2(-6.6666665, 1000)
 
 [connection signal="animation_finished" from="PivotPoint/PlayerAnimation" to="." method="_on_player_animation_finished"]
